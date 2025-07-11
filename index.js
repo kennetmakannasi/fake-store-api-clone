@@ -7,11 +7,13 @@ const userRouter = require('./routes/user')
 const indexRouter = require('./routes/index')
 const productRouter = require('./routes/product')
 const categoryRouter = require('./routes/category')
+const cartRouter = require('./routes/cart')
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/category', categoryRouter);
+app.use('/cart', cartRouter)
 app.use('/uploads', express.static('uploads'));
 
 app.listen(8080, () => {

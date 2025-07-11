@@ -48,7 +48,7 @@ async function main() {
   await prisma.cart.create({
     data: {
       userId: user1.id,
-      itemId: product1.id,
+      productId: product1.id,
       quantity: 2,
     },
   });
@@ -56,7 +56,7 @@ async function main() {
   await prisma.cart.create({
     data: {
       userId: user1.id,
-      itemId: product2.id,
+      productId: product2.id,
       quantity: 1,
     },
   });

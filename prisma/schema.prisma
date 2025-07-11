@@ -16,7 +16,7 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  username   String
+  username   String   @unique
   password   String
   carts       Cart[]  
   created_at DateTime @default(now())
@@ -49,10 +49,10 @@ model Category {
 model Cart {
   id        Int      @id @default(autoincrement())
   userId    Int
-  itemId    Int
+  productId    Int
   quantity  Int      @default(1)
   user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [itemId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

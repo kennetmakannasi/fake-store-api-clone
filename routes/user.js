@@ -15,7 +15,6 @@ router.get('/', async function (req, res) {
         password: false,
         created_at: true,
         updated_at: true,
-        carts: true,
       },
     });
 
@@ -44,7 +43,6 @@ router.get('/:id', async function (req, res) {
         password: false,
         created_at: true,
         updated_at: true,
-        carts: true,
       },
     });
 
@@ -76,6 +74,17 @@ router.post('/create', async (req, res) => {
       return res.status(400).json({
         status: 400,
         message: 'Please fill every field required',
+      });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Username already taken',
       });
     }
 
@@ -120,6 +129,17 @@ router.put('/update/:id', async (req, res) => {
       return res.status(404).json({
         status: 404,
         message: 'User not found',
+      });
+    }
+
+    const existingUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUsername) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Username already taken',
       });
     }
 

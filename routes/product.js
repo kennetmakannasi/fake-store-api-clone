@@ -35,6 +35,47 @@ router.get('/', async function (req, res) {
   });
 });
 
+router.get('/search', async function (req, res) {
+  try {
+    const q = req.query.q;
+    
+    if (!q || q.trim() === '') {
+      return res.status(400).json({
+        status: 400,
+        message: 'Query parameter "q" is required',
+      });
+    }
+
+    const keyword = q.toLowerCase();
+
+    const products = await prisma.product.findMany({
+      where: {
+        title: {
+          contains: keyword,
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+      include: {
+        category: true,
+      },
+    });
+
+
+    res.status(200).json({
+      status: 200,
+      data: products,
+    });
+  } catch (error) {
+    console.error('Error searching products:', error);
+    res.status(500).json({
+      status: 500,
+      message: 'Internal server error',
+    });
+  }
+});
+
 router.get('/:id', async function (req, res) {
   try {
     const id = parseInt(req.params.id);
@@ -59,57 +100,6 @@ router.get('/:id', async function (req, res) {
     });
   } catch (error) {
     console.error('Error fetching product by id:', error);
-    res.status(500).json({
-      status: 500,
-      message: 'Internal server error',
-    });
-  }
-});
-
-router.get('/search', async function (req, res) {
-  try {
-    const { q } = req.query;
-
-    if (!q || q.trim() === '') {
-      return res.status(400).json({
-        status: 400,
-        message: 'Query parameter "q" is required',
-      });
-    }
-
-    const keyword = q.toLowerCase();
-
-    const products = await prisma.product.findMany({
-      where: {
-        OR: [
-          {
-            title: {
-              contains: keyword,
-              mode: 'insensitive',
-            },
-          },
-          {
-            description: {
-              contains: keyword,
-              mode: 'insensitive',
-            },
-          },
-        ],
-      },
-      orderBy: {
-        id: 'asc',
-      },
-      include: {
-        category: true, // opsional: tampilkan juga kategori produk
-      },
-    });
-
-    res.status(200).json({
-      status: 200,
-      data: products,
-    });
-  } catch (error) {
-    console.error('Error searching products:', error);
     res.status(500).json({
       status: 500,
       message: 'Internal server error',
