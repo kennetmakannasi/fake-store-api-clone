@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        code {
+            background-color: #f9f9f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 90%;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= title %></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% apis.forEach(api => { %>
+                <tr>
+                    <td><strong><%= api.method %></strong></td>
+                    <td><code><%= api.endpoint %></code></td>
+                    <td><%= api.description %></td>
+                </tr>
+                <% if (api.example) { %>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Example Request:</strong>
+                            <pre><code><%= api.example %></code></pre>
+                        </td>
+                    </tr>
+                <% } %>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

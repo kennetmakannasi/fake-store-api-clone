@@ -3,19 +3,17 @@ var app = express();
 
 app.use(express.json())
 
-const userRouter = require('./routes/user')
+app.set('view engine', 'ejs')
+
+const apiRouter = require('./routes/api')
 const indexRouter = require('./routes/index')
-const productRouter = require('./routes/product')
-const categoryRouter = require('./routes/category')
-const cartRouter = require('./routes/cart')
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
-app.use('/product', productRouter);
-app.use('/category', categoryRouter);
-app.use('/cart', cartRouter)
+app.use('/api', apiRouter);
 app.use('/uploads', express.static('uploads'));
 
-app.listen(8080, () => {
-    console.log("Server berjalan di http://localhost:8080");
+const port = process.env.APP_PORT || 8080;
+
+app.listen(port, () => {
+    console.log(`Server berjalan di http://localhost:${port}`);
 });

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { PrismaClient } = require('../generated/prisma');
+const { PrismaClient } = require('../../generated/prisma');
 const prisma = new PrismaClient();
 const multer = require('multer');
 const path = require('path');
