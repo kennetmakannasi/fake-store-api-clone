@@ -14,8 +14,9 @@ router.get('/', async function (req, res) {
         username: true,
         carts: {
             select: {
-                quantity: true,
-                product: true
+              id: true,
+              quantity: true,
+              product: true
             }
         }
       },
@@ -52,6 +53,7 @@ router.get('/:id', async function (req, res) {
         username: true,
         carts: {
           select: {
+            id: true,
             quantity: true,
             product: true,
           },
